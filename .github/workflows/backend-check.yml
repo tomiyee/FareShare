@@ -6,7 +6,8 @@ on:
     paths:
       - "backend/**"
 jobs:
-  build:
+  rust-lint:
+    name: Rust Formatting & Clippy
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
@@ -26,8 +27,3 @@ jobs:
       - name: Run Clippy (Linting)
         run: cargo clippy -- -D warnings
         working-directory: backend
-
-      - name: Build Backend
-        run: |
-          cd backend
-          cargo build --release
