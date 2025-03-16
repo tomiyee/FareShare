@@ -1,0 +1,8 @@
+{
+  "scripts": {
+    "openapi": "sh ./scripts/generate-types.sh"
+  },
+  "devDependencies": {
+    "openapi-typescript": "^7.6.1"
+  }
+}
