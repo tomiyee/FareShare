@@ -71,4 +71,101 @@ npx create-expo-app@latest
 
 When prompted for the name of the app, simply enter "frontend". It will create a directory named frontend and populate it with the template.
 
-## Step 2:
+```sh
+? What is your app named? › frontend
+```
+
+## Step 2: Install Backend Dependencies
+
+### 2.1 Add Cargo Dependencies
+
+Some dependencies use features to enable extra functionality, such as `tokio`.
+
+```sh
+# In the `/backend` directory
+
+# Web Framework
+cargo add axum
+
+# Async Runtime
+cargo add tokio --features full
+# Testing utility for tokio
+cargo add --dev tokio-test
+
+# Serialization
+cargo add serde --features derive
+
+# OpenAPI Generation
+cargo add utoipa --features axum_extras
+cargo add utoipa-swagger-ui --features axum
+
+# HTTP Server
+cargo add tower
+# Middleware
+cargo add hyper --features full
+```
+
+### 2.2 Setup a simple REST server
+
+For this example, we'll make a server that only has a GET request to `/users/{id}`. 
+
+First, we define the `User` data structure, or "struct".
+
+Clear `main.rs` and add this to the top.
+```rust
+use axum::{Router, routing::get, Json};
+use serde::{Serialize, Deserialize};
+use utoipa::{OpenApi, ToSchema};
+
+#[derive(Debug, Serialize, Deserialize, ToSchema)]
+struct User {
+    id: u32,
+    name: String,
+}
+```
+
+Now, we define the API endpoint and the function to handle the get request. You can see more documentation for utoipa [here](https://github.com/juhaku/utoipa).
+```rust
+#[utoipa::path(
+    get,
+    path = "/users/{id}",
+    params(("id" = u32, Path, description = "User ID")),
+    responses(
+        (status = 200, description = "User found", body = User),
+        (status = 404, description = "User not found")
+    )
+)]
+async fn get_user() -> Json<User> {
+    Json(User { id: 1, name: "Alice".to_string() })
+}
+```
+
+```rust
+#[derive(OpenApi)]
+#[openapi(paths(get_user), components(schemas(User)))]
+struct ApiDoc;
+```
+
+```rust
+#[tokio::main]
+async fn main() {
+    // build the app and define the routes for the different API endpoints
+    let app = Router::new()
+        .route("/users/{id}", get(get_user))
+        // Add the /swagger route to allow testing API endpoints
+        .merge(utoipa_swagger_ui::SwaggerUi::new("/swagger").url("/api-docs/openapi.json", ApiDoc::openapi()));
+
+    // run our app with hyper, listening globally on port 3000
+    let listener = tokio::net::TcpListener::bind("0.0.0.0:3000").await.unwrap();
+    axum::serve(listener, app).await.unwrap();
+}
+```
+
+### 2.3 Run the backend
+
+```sh
+cargo run
+```
+
+Open the Swagger UI: http://localhost:3000/swagger
+OpenAPI Spec: http://localhost:3000/api-docs/openapi.json
