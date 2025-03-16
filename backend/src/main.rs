@@ -1,6 +1,7 @@
 use axum::{Json, Router, routing::get};
 use serde::{Deserialize, Serialize};
 use utoipa::{OpenApi, ToSchema};
+use tower_http::cors::{CorsLayer, Any};
 
 #[derive(Debug, Serialize, Deserialize, ToSchema)]
 struct User {
@@ -30,6 +31,9 @@ struct ApiDoc;
 
 #[tokio::main]
 async fn main() {
+    // Create CORS middleware
+    let cors = CorsLayer::new().allow_origin(Any);
+
     // build the app and define the routes for the different API endpoints
     let app = Router::new()
         .route("/users/{id}", get(get_user))
@@ -37,7 +41,7 @@ async fn main() {
         .merge(
             utoipa_swagger_ui::SwaggerUi::new("/swagger")
                 .url("/api-docs/openapi.json", ApiDoc::openapi()),
-        );
+        ).layer(cors);
 
     // run our app with hyper, listening globally on port 3000
     let listener = tokio::net::TcpListener::bind("0.0.0.0:3000").await.unwrap();

@@ -105,6 +105,7 @@ cargo add utoipa-swagger-ui --features axum
 
 # HTTP Server
 cargo add tower
+cargo add tower-http --features cors
 # Middleware
 cargo add hyper --features full
 ```
@@ -286,4 +287,10 @@ Make it executable.
 
 ```sh
 chmod +x scripts/generate-types.sh
+```
+
+I'm using Openapi-fetch ([link](https://openapi-ts.dev/openapi-fetch/))
+
+```sh
+npm install openapi-fetch
 ```
