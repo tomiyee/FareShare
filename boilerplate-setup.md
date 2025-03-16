@@ -66,7 +66,9 @@ See the recommended steps for creating a React Native project [here](https://doc
 
 ```sh
 # In the root directory
-# TODO
+npx create-expo-app@latest 
 ```
+
+When prompted for the name of the app, simply enter "frontend". It will create a directory named frontend and populate it with the template.
 
 ## Step 2:
