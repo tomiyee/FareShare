@@ -9,6 +9,7 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "test": "jest --watchAll",
+    "openapi": "sh ../scripts/generate-types.sh",
     "style": "prettier --write .",
     "style-check": "prettier --check .",
     "lint": "expo lint"

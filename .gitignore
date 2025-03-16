@@ -1,3 +1,6 @@
+# Global monorepo
+node_modules
+
 # Node.js / React Native
 frontend/node_modules/
 frontend/.expo/
