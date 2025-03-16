@@ -1,0 +1,33 @@
+name: Backend Checks
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "backend/**"
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Setup Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Install Dependencies
+        run: cargo fetch
+        working-directory: backend
+
+      - name: Run Rustfmt (Style Check)
+        run: cargo fmt -- --check
+        working-directory: backend
+
+      - name: Run Clippy (Linting)
+        run: cargo clippy -- -D warnings
+        working-directory: backend
+
+      - name: Build Backend
+        run: |
+          cd backend
+          cargo build --release
