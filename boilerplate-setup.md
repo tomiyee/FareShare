@@ -1,20 +1,24 @@
 # The Monorepo
 
 Frontend:
-* Typescript
-* React Native Framework
-* ESLint + Prettier
 
-Backend: 
-* Rust
-* Axum Framework
-* Utoipa 
+- Typescript
+- React Native Framework
+- ESLint + Prettier
+
+Backend:
+
+- Rust
+- Axum Framework
+- Utoipa
 
 API:
-* OpenAPI
+
+- OpenAPI
 
 Database:
-* PostgreSQL
+
+- PostgreSQL
 
 ## Step 1: Initialize the Monorepo
 
@@ -66,7 +70,7 @@ See the recommended steps for creating a React Native project [here](https://doc
 
 ```sh
 # In the root directory
-npx create-expo-app@latest 
+npx create-expo-app@latest
 ```
 
 When prompted for the name of the app, simply enter "frontend". It will create a directory named frontend and populate it with the template.
@@ -107,11 +111,12 @@ cargo add hyper --features full
 
 ### 2.2 Setup a simple REST server
 
-For this example, we'll make a server that only has a GET request to `/users/{id}`. 
+For this example, we'll make a server that only has a GET request to `/users/{id}`.
 
 First, we define the `User` data structure, or "struct".
 
 Clear `main.rs` and add this to the top.
+
 ```rust
 use axum::{Router, routing::get, Json};
 use serde::{Serialize, Deserialize};
@@ -125,6 +130,7 @@ struct User {
 ```
 
 Now, we define the API endpoint and the function to handle the get request. You can see more documentation for utoipa [here](https://github.com/juhaku/utoipa).
+
 ```rust
 #[utoipa::path(
     get,
@@ -179,45 +185,47 @@ npm install -D eslint eslint-plugin-react-hooks@latest @typescript-eslint/eslint
 ```
 
 Add the `.eslintrc.js` file to define the configurations for ESLint
+
 ```js
 // https://docs.expo.dev/guides/using-eslint/
 module.exports = {
-  ignorePatterns: ['/dist/*'],
+  ignorePatterns: ["/dist/*"],
   env: {
     // This tells ESLint to recognize Jest globals like `it` and `expect`
-    jest: true, 
+    jest: true,
   },
   extends: [
-    'expo',
-    'plugin:jest/recommended',
-    'eslint:recommended',
-    'plugin:react/recommended',
-    'plugin:react/jsx-runtime' 
+    "expo",
+    "plugin:jest/recommended",
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:react/jsx-runtime",
   ],
   settings: {
     react: {
-      version: 'detect'
-    }
-  }
+      version: "detect",
+    },
+  },
 };
 ```
 
 Optional: I like to add these rules to `.eslintrc.js`. You can look up what each rule does on ESLint's website, and add your own.
+
 ```js
 module.exports = {
   // ...
   rules: {
-    "@typescript-eslint/no-shadow": ["error", { "allow": ["_"] }],
+    "@typescript-eslint/no-shadow": ["error", { allow: ["_"] }],
     "dot-notation": "error",
-    "eqeqeq": "error",
+    eqeqeq: "error",
     "no-param-reassign": "error",
     "no-var": "warn",
     "react/self-closing-comp": "warn",
     "require-await": "error",
-    "yoda": "error"
+    yoda: "error",
   },
   // ...
-}
+};
 ```
 
 Then, update the compilerOptions section in `tsconfig.json` to define jsx:
@@ -231,6 +239,7 @@ Then, update the compilerOptions section in `tsconfig.json` to define jsx:
 ```
 
 In `./.vscode/settings.json` to enable eslint to work for `frontend` while having the parent directory open.
+
 ```json
 {
   "eslint.workingDirectories": [
@@ -241,10 +250,18 @@ In `./.vscode/settings.json` to enable eslint to work for `frontend` while havin
 
 ### 3.2 Prettier
 
-Add a `/frontend/.prettierrc.json`. Here are some that 
+Add a `/frontend/.prettierrc.json`. Here are some that
+
 ```json
 {
   "singleQuote": true,
   "quoteProps": "consistent"
 }
 ```
+
+VSCode formatters.
+
+- Import the Prettier Extension in VSCode, titled "Prettier - Code formatter"
+- Go to Settings (`Ctrl + ,` or `Cmd + ,` on Mac),
+- Search for `"editor.defaultFormatter"` and set it to Prettier
+- Search for `"format on save"` and check `"Editor: Format on Save"

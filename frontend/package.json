@@ -9,6 +9,8 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "test": "jest --watchAll",
+	  "style": "prettier --write .",
+	  "style-check": "prettier --check .",
     "lint": "expo lint"
   },
   "jest": {
