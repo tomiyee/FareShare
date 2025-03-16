@@ -169,3 +169,82 @@ cargo run
 
 Open the Swagger UI: http://localhost:3000/swagger
 OpenAPI Spec: http://localhost:3000/api-docs/openapi.json
+
+## 3. Frontend Setup
+
+### 3.1. ESLint
+
+```sh
+npm install -D eslint eslint-plugin-react-hooks@latest @typescript-eslint/eslint-plugin@latest eslint-plugin-jest@latest
+```
+
+Add the `.eslintrc.js` file to define the configurations for ESLint
+```js
+// https://docs.expo.dev/guides/using-eslint/
+module.exports = {
+  ignorePatterns: ['/dist/*'],
+  env: {
+    // This tells ESLint to recognize Jest globals like `it` and `expect`
+    jest: true, 
+  },
+  extends: [
+    'expo',
+    'plugin:jest/recommended',
+    'eslint:recommended',
+    'plugin:react/recommended',
+    'plugin:react/jsx-runtime' 
+  ],
+  settings: {
+    react: {
+      version: 'detect'
+    }
+  }
+};
+```
+
+Optional: I like to add these rules to `.eslintrc.js`. You can look up what each rule does on ESLint's website, and add your own.
+```js
+module.exports = {
+  // ...
+  rules: {
+    "@typescript-eslint/no-shadow": ["error", { "allow": ["_"] }],
+    "dot-notation": "error",
+    "eqeqeq": "error",
+    "no-param-reassign": "error",
+    "no-var": "warn",
+    "react/self-closing-comp": "warn",
+    "require-await": "error",
+    "yoda": "error"
+  },
+  // ...
+}
+```
+
+Then, update the compilerOptions section in `tsconfig.json` to define jsx:
+
+```json
+{
+  "compilerOptions": {
+    "jsx": "react-jsx"
+  }
+}
+```
+
+In `./.vscode/settings.json` to enable eslint to work for `frontend` while having the parent directory open.
+```json
+{
+  "eslint.workingDirectories": [
+    { "directory": "./frontend", "changeProcessCWD": true }
+  ]
+}
+```
+
+### 3.2 Prettier
+
+Add a `/frontend/.prettierrc.json`. Here are some that 
+```json
+{
+  "singleQuote": true,
+  "quoteProps": "consistent"
+}
+```
