@@ -1,7 +1,7 @@
 use axum::{Json, Router, routing::get};
 use serde::{Deserialize, Serialize};
+use tower_http::cors::{Any, CorsLayer};
 use utoipa::{OpenApi, ToSchema};
-use tower_http::cors::{CorsLayer, Any};
 
 #[derive(Debug, Serialize, Deserialize, ToSchema)]
 struct User {
@@ -41,7 +41,8 @@ async fn main() {
         .merge(
             utoipa_swagger_ui::SwaggerUi::new("/swagger")
                 .url("/api-docs/openapi.json", ApiDoc::openapi()),
-        ).layer(cors);
+        )
+        .layer(cors);
 
     // run our app with hyper, listening globally on port 3000
     let listener = tokio::net::TcpListener::bind("0.0.0.0:3000").await.unwrap();
