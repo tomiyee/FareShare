@@ -27,8 +27,10 @@ struct ApiDoc;
 
 #[tokio::main]
 async fn main() {
+    // build the app and define the routes for the different API endpoints
     let app = Router::new()
         .route("/users/{id}", get(get_user))
+        // Add the /swagger route to allow testing API endpoints
         .merge(utoipa_swagger_ui::SwaggerUi::new("/swagger").url("/api-docs/openapi.json", ApiDoc::openapi()));
 
     // run our app with hyper, listening globally on port 3000
