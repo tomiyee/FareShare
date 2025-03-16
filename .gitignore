@@ -128,3 +128,52 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+# Node.js / React Native
+frontend/node_modules/
+frontend/.expo/
+frontend/.expo-shared/
+frontend/.vscode/
+frontend/.yarn/
+frontend/.yarncache/
+frontend/.metro-cache/
+frontend/android/.gradle/
+frontend/android/app/build/
+frontend/ios/Pods/
+frontend/ios/build/
+frontend/ios/.generated/
+frontend/ios/DerivedData/
+frontend/ios/.xcworkspace/
+frontend/.env
+frontend/.DS_Store
+
+# Rust / Cargo
+backend/target/
+backend/Cargo.lock
+backend/.cargo/
+backend/.rustc_info.json
+backend/.vscode/
+backend/.idea/
+backend/.DS_Store
+backend/.env
+backend/openapi.json  # Ignore OpenAPI JSON (regenerate as needed)
+
+# Logs & Debugging
+*.log
+*.bak
+*.swp
+*.swo
+*.swn
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# System Files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Git / CI Artifacts
+.git/
+.gitignore
+.github/workflows/.DS_Store
