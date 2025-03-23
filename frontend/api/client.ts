@@ -1,7 +1,9 @@
 import createClient from 'openapi-fetch';
 import { paths } from './types';
 
-const client = createClient<paths>({ baseUrl: 'http://localhost:3000' });
+const baseUrl = 'http://192.168.0.113:3000'
+
+const client = createClient<paths>({ baseUrl });
 
 export default client;
 
